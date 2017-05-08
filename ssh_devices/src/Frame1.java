@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.jcraft.jsch.*;
+import ssh_devices.validation.*;
+import ssh_devices.model.*;
 public class Frame1 {
 
 	private JFrame frame;
@@ -44,6 +46,7 @@ public class Frame1 {
 	private JPasswordField passwordField;
 	private File file;
 	static String username = null, password = null, commands = null;
+	String[] commandsArray  = null;
 	/**
 	 * Launch the application.
 	 */
@@ -63,10 +66,7 @@ public class Frame1 {
 		
 	}
 
-	private static void connect(String username, String password, String commands) {
-		
-		
-	}
+	
 
 	/**
 	 * Create the application.
@@ -169,7 +169,7 @@ public class Frame1 {
 				String commands = textField_3.getText();
 				if (commands.contains(",")) {
 				
-					String[] commandsArray = commands.split(",");
+					commandsArray = commands.split(",");
 					
 			}
 		}});
@@ -194,7 +194,13 @@ public class Frame1 {
 		btnConnect.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
 			System.out.println(username);
+			
+			if(ssh_validation.validateInput(username, password, commandsArray) == true && ) {
 			}
+			ssh_model User = new ssh_model(username, password, commandsArray)
+			}
+
+			
 		});
 		
 	
