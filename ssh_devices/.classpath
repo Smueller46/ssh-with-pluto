@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
 	<classpathentry kind="lib" path="/root/Downloads/jsch-0.1.54.jar"/>
+	<classpathentry kind="lib" path="/root/Downloads/java-ssh-wrapper-master/build/libs/java-ssh-wrapper-master.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

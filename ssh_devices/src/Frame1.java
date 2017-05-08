@@ -30,15 +30,20 @@ import java.awt.FlowLayout;
 import java.awt.Rectangle;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import com.jcraft.jsch.*;
 public class Frame1 {
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textFieldIP;
+	private JTextField textFieldUsername;
 	private JTextField textField_3;
-  
+	private JPasswordField passwordField;
+	private File file;
+	static String username = null, password = null, commands = null;
 	/**
 	 * Launch the application.
 	 */
@@ -52,7 +57,15 @@ public class Frame1 {
 					e.printStackTrace();
 				}
 			}
-		});
+			});
+	
+		//connect(username,password,commands);
+		
+	}
+
+	private static void connect(String username, String password, String commands) {
+		
+		
 	}
 
 	/**
@@ -75,14 +88,24 @@ public class Frame1 {
 		frame.getContentPane().setLayout(null);
 		
 		JComboBox comboBox = new JComboBox();
+		
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (comboBox.getSelectedItem() == "Ip List") {
 					System.out.println("ip list selected");
 					JFileChooser fileChoice = new JFileChooser();
 					int returnVal = fileChoice.showOpenDialog(comboBox);
-				}
-				textField.setEditable(true);
+					if (returnVal == JFileChooser.APPROVE_OPTION)
+					{
+						
+						file = fileChoice.getSelectedFile();
+						System.out.println("opening" + file.getName());
+						
+						
+					}
+					}
+				else if (comboBox.getSelectedItem() == "IP address") 
+					textFieldIP.setEditable(true);;
 			}
 		});
 		
@@ -94,49 +117,63 @@ public class Frame1 {
 		lblIpSource.setBounds(12, 5, 70, 15);
 		frame.getContentPane().add(lblIpSource);
 		
-		textField = new JTextField();
-		textField.addActionListener(new ActionListener() {
+		textFieldIP = new JTextField();
+		textFieldIP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				userIPInput();
-			}
-
-			private void userIPInput() {
-				//validate and collect user input
 				
-			}
-		});
-		textField.getDocument().addDocumentListener(new MyDocumentListener());
+			//}
+
+			//private void userIPInput() {
+			
+				String IP_addr = textFieldIP.getText();
+			System.out.println(textFieldIP.getText());
+				
+			//}
+		}});
+		
 		
 
-		textField.setBounds(12, 68, 123, 37);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
-		textField.setEditable(false);
+		textFieldIP.setBounds(12, 68, 123, 37);
+		frame.getContentPane().add(textFieldIP);
+		textFieldIP.setColumns(10);
+		textFieldIP.setEditable(false);
 		
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setBounds(12, 117, 114, 15);
 		frame.getContentPane().add(lblUsername);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(12, 139, 114, 19);
-		frame.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		textFieldUsername = new JTextField();
+		textFieldUsername.setBounds(12, 139, 114, 19);
+		frame.getContentPane().add(textFieldUsername);
+		textFieldUsername.setColumns(10);
+		textFieldUsername.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			username = textFieldUsername.getText();
+			}
+			
+		});
+		textFieldUsername.getDocument().addDocumentListener(new MyDocumentListener());
+		//textField_1.getDocument().addDocumentListener(new MyDocumentListener());
 		
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setBounds(12, 170, 70, 15);
 		frame.getContentPane().add(lblPassword);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(12, 193, 114, 19);
-		frame.getContentPane().add(textField_2);
-		textField_2.setColumns(10);
-		
 		JLabel lblCommands = new JLabel("Commands");
-		lblCommands.setBounds(315, 5, 100, 15);
+		lblCommands.setBounds(290, 5, 100, 15);
 		frame.getContentPane().add(lblCommands);
 		
 		textField_3 = new JTextField();
-		textField_3.setBounds(260, 35, 155, 50);
+		textField_3.addActionListener(new ActionListener() {
+			//get commands seperated by commas
+			public void actionPerformed(ActionEvent arg0) {
+				String commands = textField_3.getText();
+				if (commands.contains(",")) {
+				
+					String[] commandsArray = commands.split(",");
+					
+			}
+		}});
+		textField_3.setBounds(260, 20, 155, 50);
 		frame.getContentPane().add(textField_3);
 		textField_3.setColumns(10);
 		
@@ -144,15 +181,27 @@ public class Frame1 {
 		btnConnect.setBounds(260, 190, 117, 25);
 		frame.getContentPane().add(btnConnect);
 		
+		passwordField = new JPasswordField();
+		passwordField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				@SuppressWarnings("deprecation")
+				String password = passwordField.getText();
+			}
+		});
+		passwordField.setBounds(12, 193, 94, 19);
+		frame.getContentPane().add(passwordField);
+		
 		btnConnect.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
-			//	if(textField_3)
+			System.out.println(username);
 			}
 		});
 		
 	
 	}
-}
+	
+	}
+
 
 class MyDocumentListener implements DocumentListener {
 	public void changedUpdate(DocumentEvent e) {
@@ -169,7 +218,7 @@ class MyDocumentListener implements DocumentListener {
 		  if (e.getDocument().getLength() == 0){
 			  System.out.println(" input interpreted as empty");
 			  
-		      btnConnect.setEnabled(false);
+		     // btnConnect.setEnabled(false);
 		     }
 		     else {
 		       System.out.println("not interpreted as empty with a value of" + e.getDocument().getLength());
